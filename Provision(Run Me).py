@@ -25,6 +25,13 @@ domainLong = 'www.' + domain
 
 zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
+# TODO - If zone is None, IPV4Record and others will be too.
+# Catch the issue here, and sys.exit()
+# Proper checks will be implemented later
+if zone is None:
+    print "No domain checked is registered on CloudFlare"
+    sys.exit()
+
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
