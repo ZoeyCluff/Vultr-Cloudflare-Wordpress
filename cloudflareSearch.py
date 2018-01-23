@@ -4,17 +4,12 @@ from collections import Counter
 
 def zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     url = "https://api.cloudflare.com/client/v4/zones"
-
-
     querystring = {"name": domain}
-
     headers = {
         'X-Auth-Email': CLOUDFLARE_EMAIL,
         'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
         'Cache-Control': "no-cache"
-
     }
-
     response = requests.request("GET", url, headers=headers, params=querystring)
     for res in response.json()['result']:
         if res['name'] == domain:
@@ -24,18 +19,14 @@ def zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
 
 def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
-
     headers = {
         'X-Auth-Email': CLOUDFLARE_EMAIL,
         'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
         'Cache-Control': "no-cache"
-
     }
-
     response = requests.request("GET", url, headers=headers)
     for res in response.json()['result_info']:
         count = response.json()['result_info']['total_count']
-
         default = int('0')
         if count  > default:
             exists = 'true'
@@ -44,18 +35,13 @@ def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
 
 def IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
-
         url = "https://api.cloudflare.com/client/v4/zones/"+zone+"/dns_records"
-
         querystring = {"type": "A", "name": domain}
-
         headers = {
             'X-Auth-Email': CLOUDFLARE_EMAIL,
             'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
             'Cache-Control': "no-cache"
-
         }
-
         response = requests.request("GET", url, headers=headers, params=querystring)
         for res in response.json()['result']:
             if res['name'] == domain:
@@ -66,18 +52,13 @@ def IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
 
 def IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
-
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
-
         querystring = {"type": "A", "name": domainLong}
-
         headers = {
             'X-Auth-Email': CLOUDFLARE_EMAIL,
             'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
             'Cache-Control': "no-cache"
-
         }
-
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
         for res in response.json()['result']:
@@ -89,18 +70,13 @@ def IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
 
 def IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
-
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
-
         querystring = {"type": "AAAA", "name": domain}
-
         headers = {
             'X-Auth-Email': CLOUDFLARE_EMAIL,
             'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
             'Cache-Control': "no-cache"
-
         }
-
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
         for res in response.json()['result']:
@@ -112,23 +88,17 @@ def IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
 
 def IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
-
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
-
         querystring = {"type": "AAAA", "name": domainLong}
-
         headers = {
             'X-Auth-Email': CLOUDFLARE_EMAIL,
             'X-Auth-Key': CLOUDFLARE_AUTH_KEY,
             'Cache-Control': "no-cache"
-
         }
-
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
         for res in response.json()['result']:
             if res['name'] == domainLong:
                 ipv6wwwDNSRecordExists = 'true'
                 ipv6wwwRecord = res['id']
-
                 return (ipv6wwwDNSRecordExists, ipv6wwwRecord)
