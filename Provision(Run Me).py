@@ -5,7 +5,7 @@ from twindb_cloudflare.twindb_cloudflare import CloudFlare, CloudFlareException
 import os
 from variables import *
 from vultr import *
-from cloudflareSearch import zone, doRecordsExist, IPV4Record, IPV4wwwRecord, IPV6Record, IPV6wwwRecord, 
+from cloudflareSearch import zone, doRecordsExist, IPV4Record, IPV4wwwRecord, IPV6Record, IPV6wwwRecord
 from cloudflareDelete import ipv4RecordDelete, ipv4wwwRecordDelete, ipv6RecordDelete, ipv6wwwRecordDelete, deleteRecords
 from cloudflareCheck import ipv4, ipv4www, ipv6, ipv6www
 import sys
