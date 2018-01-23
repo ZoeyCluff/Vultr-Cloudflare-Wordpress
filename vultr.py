@@ -27,7 +27,7 @@ def vultr(apikey):
     instanceID = r["SUBID"]
 
     print("VPS Should be created successfully, waiting 60 seconds to provision")
-    time.sleep(30)
+    time.sleep(60)
     # return (instanceID)
 
 

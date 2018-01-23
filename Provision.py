@@ -24,58 +24,64 @@ domain = raw_input("What is the domain name? (without www): ")
 domainLong = 'www.' + domain
 
 zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-# TODO - If exists is None, IPV4Record and others will be too.
+# exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+# TODO - If exists is None, ipv4Record and others will be too.
 # Catch the issue here, and sys.exit()
 # Proper checks will be implemented later
 if exists is 'True':
     from cloudflareCheck import *
-    ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv4wwwDNSRecordExists, ipv4wwwRecord = IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv6DNSRecordExists, ipv6Record = IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    # ipv4DNSRecordExists = ipv4(zone, domain, domainLong CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    # ipv4wwwDNSRecordExists = ipv4www(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    # ipv6DNSRecordExists = IPV6Record(zone,  domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    # ipv6wwwDNSRecordExists = IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-    # print("Checking for existing A and AAAA records that may interfere")
+    ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv4wwwDNSRecordExists, ipv4wwwRecord  = IPV4wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6DNSRecordExists, ipv6Record = IPV6Record(zone,  domain,  CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+
+    print("Checking for existing A and AAAA records that may interfere")
     if ipv4Record:
-        print term.yellow("Conflicting IPV4 @ record detected. Site will not function without updating this record. Update?")
-        answerIPV4 = str(raw_input('Update ipv4 @ records? y/n (lowercase y or n): '))
+        print term.yellow("Conflicting ipv4 @ record detected. Site will not function without updating this record. Update?")
+        answeripv4 = str(raw_input('Update ipv4 @ records? y/n (lowercase y or n): '))
 
     if ipv4wwwRecord:
-        print term.yellow("Conflicting IPV4 www record detected. Site will not function without updating this record. Update?")
-        answerIPV4WWW = str(raw_input('Update ipv4 www records? y/n (lowercase y or n): '))
+        print term.yellow("Conflicting ipv4 www record detected. Site will not function without updating this record. Update?")
+        answeripv4WWW = str(raw_input('Update ipv4 www records? y/n (lowercase y or n): '))
 
     if ipv6Record:
-        print term.yellow("Conflicting IPV6 @ record detected. Site will not function without updating this record. Update?")
-        answerIPV6 = str(raw_input('Update ipv6 @ records? y/n (lowercase y or n): '))
+        print term.yellow("Conflicting ipv6 @ record detected. Site will not function without updating this record. Update?")
+        answeripv6 = str(raw_input('Update ipv6 @ records? y/n (lowercase y or n): '))
 
     if ipv6wwwRecord:
-        print term.yellow("Conflicting IPV6 www record detected. Site will not function without updating this record. Update?")
-        answerIPV6WWW = str(raw_input('Update ipv6 www records? y/n (lowercase y or n): '))
+        print term.yellow("Conflicting ipv6 www record detected. Site will not function without updating this record. Update?")
+        answeripv6WWW = str(raw_input('Update ipv6 www records? y/n (lowercase y or n): '))
 
-    if answerIPV4.lower() == 'y':
-        ipv4RecordDelete(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv4Record)
+    if answeripv4.lower() == 'y':
+        ipv4RecordDelete(zone, ipv4Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-    if answerIPV4WWW.lower() == 'y':
-        ipv4wwwRecordDelete(zone, ipv4wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, )
+    if answeripv4WWW.lower() == 'y':
+        ipv4wwwRecordDelete(zone, ipv4wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-    if answerIPV6.lower() == 'y':
-        ipv6RecordDelete(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv6Record)
+    if answeripv6.lower() == 'y':
+        ipv6RecordDelete(zone, ipv6Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-    if answerIPV6WWW.lower() == 'y':
+    if answeripv6WWW.lower() == 'y':
         ipv6wwwRecordDelete(zone, ipv6wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-elif exists is None:
-    # Add Cloudflare records
-    print term.blue("Adding records to Cloudflare")
-    cf = CloudFlare(CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    cf.create_dns_record('@', domain, ipv4vultr)
-    cf.create_dns_record('www', domain, ipv4vultr)
-    cf.create_dns_record('@', domain, ipv6vultr, record_type="AAAA")
-    cf.create_dns_record('www', domain, ipv6vultr, record_type="AAAA")
-    print term.green("Cloudflare records added successfully")
 
+# Add Cloudflare records
+print term.blue("Adding records to Cloudflare")
+cf = CloudFlare(CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+cf.create_dns_record('@', domain, ipv4vultr)
+cf.create_dns_record('www', domain, ipv4vultr)
+cf.create_dns_record('@', domain, ipv6vultr, record_type="AAAA")
+cf.create_dns_record('www', domain, ipv6vultr, record_type="AAAA")
+print term.green("Cloudflare records added successfully")
 
+with open("./instances.py", 'a') as f:
+    f.write(instanceID)
 
 with open("./ips.txt", 'w') as f:
     f.write("ipv4="+ipv4vultr + '\n' + "ipv6="+ipv6vultr)
@@ -114,9 +120,11 @@ if successAnswer.lower() == 'y' and testing != '':
     print("Deleting Cloudflare records")
     exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-    # print("Checking for existing A and AAAA records that may interfere")
-
-    ipv4DNSRecordExists, ipv4Record, ipv4wwwDNSRecordExists, ipv4wwwRecord, ipv6DNSRecordExists, ipv6Record, ipv6wwwDNSRecordExists, ipv6wwwRecord = cloudflareCheck(exists, zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-
-    if exists != '':
-        deleteRecords(ipv4DNSRecordExists, answerIPV4, zone, ipv4Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv4wwwDNSRecordExists, ipv4wwwRecord, answerIPV6, ipv6DNSRecordExists, ipv6Record, ipv6wwwRecord, ipv6wwwDNSRecordExists)
+    ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv4wwwDNSRecordExists, ipv4wwwRecord  = IPV4wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6DNSRecordExists, ipv6Record = IPV6Record(zone,  domain,  CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv4RecordDelete(zone, ipv4Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv4wwwRecordDelete(zone, ipv4wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6RecordDelete(zone, ipv6Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    ipv6wwwRecordDelete(zone, ipv6wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)

@@ -31,6 +31,9 @@ def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
         if count  > default:
             exists = 'True'
             return exists
+        elif count < default:
+            exists = 'False'
+            return exists
 
 
 def IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
@@ -48,9 +51,11 @@ def IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
                 ipv4DNSRecordExists = 'true'
                 ipv4Record = res['id']
                 return (ipv4DNSRecordExists, ipv4Record)
+                if exists and ipv4Record != '':
+                    ipv4RecordExists = 'True'
+                    return ipv4RecordExists
 
-
-def IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV4wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
         querystring = {"type": "A", "name": domainLong}
@@ -86,7 +91,7 @@ def IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
                 return (ipv6DNSRecordExists, ipv6Record)
 
 
-def IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV6wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
         querystring = {"type": "AAAA", "name": domainLong}
