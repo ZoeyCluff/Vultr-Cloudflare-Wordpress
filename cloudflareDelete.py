@@ -1,9 +1,6 @@
 
 #!/usr/bin/python
 import requests
-from cloudflareCheck import *
-
-
 
 
 # Delete IPV4 records
