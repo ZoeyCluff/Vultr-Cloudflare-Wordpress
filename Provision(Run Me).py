@@ -28,18 +28,33 @@ zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 # print("Checking for existing A and AAAA records that may interfere")
+if ipv4Record:
+    print term.yellow("Conflicting IPV4 @ record detected. Site will not function without updating this record. Update?")
+    answerIPV4 = str(raw_input('Update ipv4 @ records? y/n (lowercase y or n): '))
 
+if ipv4wwwRecord:
+    print term.yellow("Conflicting IPV4 www record detected. Site will not function without updating this record. Update?")
+    answerIPV4WWW = str(raw_input('Update ipv4 www records? y/n (lowercase y or n): '))
 
+if ipv6Record:
+    print term.yellow("Conflicting IPV6 @ record detected. Site will not function without updating this record. Update?")
+    answerIPV6 = str(raw_input('Update ipv6 @ records? y/n (lowercase y or n): '))
 
-if exists != '':
-    # ipv4DNSRecordExists, ipv4Record, ipv4wwwDNSRecordExists, ipv4wwwRecord, ipv6DNSRecordExists, ipv6Record, ipv6wwwDNSRecordExists, ipv6wwwRecord = cloudflareCheck(exists, zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    print term.yellow("Conflicting ipv4 A records detected, site will not be reachable unless you update DNS records with the new server's IP which will cause later steps to fail (the LetsEncrypt cert generation)")
-    answerIPV4 = str(raw_input('Update ipv4 records? y/n (lowercase y or n): '))
-    print term.yellow("Conflicting ipv6 AAA records detected, site will not be reachable unless you update DNS records with the new server's IP which will cause later steps to fail (the LetsEncrypt cert generation)")
-    answerIPV6 = str(raw_input('Update ipv6 records? y/n (lowercase y/n): '))
-    deleteRecords(ipv4DNSRecordExists, answerIPV4, zone, ipv4Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv4wwwDNSRecordExists, ipv4wwwRecord, answerIPV6, ipv6DNSRecordExists, ipv6Record, ipv6wwwRecord, ipv6wwwDNSRecordExists)
+if ipv6wwwRecord:
+    print term.yellow("Conflicting IPV6 www record detected. Site will not function without updating this record. Update?")
+    answerIPV6WWW = str(raw_input('Update ipv6 www records? y/n (lowercase y or n): '))
 
+if answerIPV4 == 'y':
+    deleteRecords(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv4DNSRecordExists, ipv4Record)
 
+if answerIPV4WWW == 'y':
+    deleteRecords(ipv4wwwDNSRecordExists, zone, ipv4wwwRecord, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, )
+
+if answerIPV6 == 'y':
+    deleteRecords(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv6DNSRecordExists, ipv6Record)
+
+if answerIPV6WWW == 'y':
+    deleteRecords(ipv6wwwDNSRecordExists,zone, ipv6Record, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, ipv6wwwDNSRecordExists, ipv6wwwRecord)
 # Add Cloudflare records
 print term.blue("Adding records to Cloudflare")
 cf = CloudFlare(CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
