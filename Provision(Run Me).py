@@ -21,16 +21,16 @@ instanceID, ipv4, ipv6 = vultr(apikey)
 # Doing some Cloudflare checks before continuining.
 
 domain = raw_input("What is the domain name? (without www): ")
-domainLong = str('www.' + domain)
+domainLong = 'www.' + domain
 
 zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
-ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, ipv4Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-ipv4wwwDNSRecordExists, ipv4wwwRecord = IPV4wwwRecord(zone, ipv4wwwRecord, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-ipv6DNSRecordExists, ipv6Record = IPV6Record(zone, ipv6Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, ipv6wwwRecord, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv4wwwDNSRecordExists, ipv4wwwRecord = IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv6DNSRecordExists, ipv6Record = IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 # print("Checking for existing A and AAAA records that may interfere")
 if ipv4Record:
