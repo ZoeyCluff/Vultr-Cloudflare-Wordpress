@@ -42,7 +42,7 @@ def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
             return exists
 
 
-def IPV4Record(zone, ipv4Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
 
         url = "https://api.cloudflare.com/client/v4/zones/"+zone+"/dns_records"
@@ -64,7 +64,7 @@ def IPV4Record(zone, ipv4Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
                 return (ipv4DNSRecordExists, ipv4Record)
 
 
-def IPV4wwwRecord(zone, ipv4wwwRecord,  domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
 
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
@@ -87,7 +87,7 @@ def IPV4wwwRecord(zone, ipv4wwwRecord,  domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE
                 return (ipv4wwwDNSRecordExists, ipv4wwwRecord)
 
 
-def IPV6Record(zone, ipv6Record,  domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV6Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
 
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
@@ -110,7 +110,7 @@ def IPV6Record(zone, ipv6Record,  domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
                 return (ipv6DNSRecordExists, ipv6Record)
 
 
-def IPV6wwwRecord(zone, ipv6wwwRecord,  domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if zone:
 
         url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
