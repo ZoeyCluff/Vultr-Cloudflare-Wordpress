@@ -182,6 +182,10 @@
             priv: '*.*:ALL'
             state: present
 
+        - name: stop nginx
+          service:
+              name: nginx
+              state: stopped
 
 
         - name: create www folder
@@ -335,4 +339,4 @@
         - name: restart NGINX for new config to take effect
           service:
             name: nginx
-            state: restarted
+            state: started

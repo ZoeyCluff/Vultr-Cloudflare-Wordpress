@@ -29,7 +29,7 @@ def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
         count = response.json()['result_info']['total_count']
         default = int('0')
         if count  > default:
-            exists = 'true'
+            exists = 'True'
             return exists
 
 

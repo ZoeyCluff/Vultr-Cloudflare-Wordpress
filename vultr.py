@@ -1,8 +1,8 @@
 
+#!/usr/bin/python
 import requests
 import time
 from variables import *
-
 
 
 # Create Vultr VPS using default values
@@ -46,8 +46,8 @@ def vultr(apikey):
     response = requests.get(url, headers=headers, params=querystring).json()
 
 
-    ipv4 = response[instanceID][0]['ip']
-
+    ipv4vultr = response[instanceID][0]['ip']
+    print(ipv4vultr)
     # return (ipv4)
 
 
@@ -64,6 +64,6 @@ def vultr(apikey):
 
     response = requests.get(url, headers=headers, params=querystring).json()
 
-    ipv6 = response[instanceID][0]['ip']
-
-    return (instanceID, ipv4, ipv6)
+    ipv6vultr = response[instanceID][0]['ip']
+    print(ipv6vultr)
+    return (instanceID, ipv4vultr, ipv6vultr)
