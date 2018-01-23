@@ -27,20 +27,25 @@ zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
+ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, ipv4Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv4wwwDNSRecordExists, ipv4wwwRecord = IPV4wwwRecord(zone, ipv4wwwRecord, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv6DNSRecordExists, ipv6Record = IPV6Record(zone, ipv6Record, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, ipv6wwwRecord, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+
 # print("Checking for existing A and AAAA records that may interfere")
-if IPV4Record:
+if ipv4Record:
     print term.yellow("Conflicting IPV4 @ record detected. Site will not function without updating this record. Update?")
     answerIPV4 = str(raw_input('Update ipv4 @ records? y/n (lowercase y or n): '))
 
-if IPV4wwwRecord:
+if ipv4wwwRecord:
     print term.yellow("Conflicting IPV4 www record detected. Site will not function without updating this record. Update?")
     answerIPV4WWW = str(raw_input('Update ipv4 www records? y/n (lowercase y or n): '))
 
-if IPV6Record:
+if ipv6Record:
     print term.yellow("Conflicting IPV6 @ record detected. Site will not function without updating this record. Update?")
     answerIPV6 = str(raw_input('Update ipv6 @ records? y/n (lowercase y or n): '))
 
-if IPV6wwwRecord:
+if ipv6wwwRecord:
     print term.yellow("Conflicting IPV6 www record detected. Site will not function without updating this record. Update?")
     answerIPV6WWW = str(raw_input('Update ipv6 www records? y/n (lowercase y or n): '))
 
