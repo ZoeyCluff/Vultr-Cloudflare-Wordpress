@@ -1,6 +1,6 @@
 #!/usr/bin/python
-from cloudflareSearch import *
-def cloudflareCheck(exists, zone, domain,domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+from cloudflareSearch import IPV4Record, IPV4wwwRecord, IPV6Record, IPV6wwwRecord
+def cloudflareCheck(exists, zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     if exists != '':
         ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
         ipv4wwwDNSRecordExists, ipv4wwwRecord  = IPV4wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
