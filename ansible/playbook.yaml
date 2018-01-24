@@ -193,14 +193,12 @@
           mysql_db:
             name: "{{ domainShort }}"
             login_user: "root"
-            login_password: "{{ mysqlpassword }}"
             state: present
 
         - name: Create a new user
           mysql_user:
             name: "{{ domainShort }}"
             login_user: "root"
-            login_password: "{{ mysqlpassword }}"
             password: "{{ db_password }}"
             priv: '*.*:ALL'
             state: present
@@ -330,7 +328,7 @@
               proto: tcp
 
         - name: generate letsencrypt certificate
-          shell: certbot certonly --agree-tos -a standalone -m {{ cfemail }} -d {{domainLong}} -d www.{{domainLong}}
+          shell: certbot certonly --agree-tos --staging -a standalone -m {{ cfemail }} -d {{domainLong}} -d www.{{domainLong}}
           args:
             creates: /etc/letsencrypt/live/{{ domainLong }}
 

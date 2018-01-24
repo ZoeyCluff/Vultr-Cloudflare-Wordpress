@@ -22,15 +22,15 @@ def vultr(apikey):
         'hostname': hostname
 
     }
-    r = requests.post(url, headers=headers, data=payload).json()
+    r = requests.request('POST', url, headers=headers, data=payload).json()
     instanceID = r["SUBID"]
 
     print("VPS Should be created successfully, waiting 60 seconds to provision")
     time.sleep(30)
-    # return (instanceID)
+    return (instanceID)
 
 
-
+def getIPs(instanceID, apikey):
     # Get IPV4 address
     url = "https://api.vultr.com/v1/server/list_ipv4"
 
@@ -45,10 +45,7 @@ def vultr(apikey):
     response = requests.get(url, headers=headers, params=querystring).json()
 
 
-    ipv4 = response[instanceID][0]['ip']
-
-    # return (ipv4)
-
+    ipv4Vultr = response[instanceID][0]['ip']
 
     # Get IPV6 address
     url = "https://api.vultr.com/v1/server/list_ipv6"
@@ -63,6 +60,6 @@ def vultr(apikey):
 
     response = requests.get(url, headers=headers, params=querystring).json()
 
-    ipv6 = response[instanceID][0]['ip']
+    ipv6Vultr = response[instanceID][0]['ip']
 
-    return (instanceID, ipv4, ipv6)
+    return (ipv4Vultr, ipv6Vultr)

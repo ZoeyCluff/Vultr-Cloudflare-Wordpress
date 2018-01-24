@@ -1,7 +1,9 @@
 from variables import *
 import requests
 import json
-
+zone = '05c841f6ece79182c1f47eea43598432'
+domain = 'betterpress.site'
+domainLong = 'www.betterpress.site'
 
 def RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong):
     url = "https://api.cloudflare.com/client/v4/zones/" + zone + "/dns_records"
@@ -23,7 +25,7 @@ def RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong
                 if ipv4wwwZone != '':
                     print("ipv4www =" +ipv4wwwZone)
                     return ipv4wwwZone
-                else:
+                else:assert
                     ipv4wwwZone = False
                     return ipv4wwwZone
 
@@ -54,3 +56,4 @@ def RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong
                 else:
                     ipv6Zone = False
                     return ipv6Zone
+test = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
