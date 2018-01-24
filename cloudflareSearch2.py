@@ -29,7 +29,7 @@ def main():
             exists = True
             for r in dns_records:
                 if r['name'] == 'www.betterpress.site' and r['type'] == 'AAAA':
-                    print(r['id'])
+                    ipv4Zone = r['id']
 
             return exists
     except CloudFlare.exceptions.CloudFlareAPIError as e:
