@@ -1,8 +1,7 @@
-
-#!/usr/bin/python
+from variables import *
 import requests
 import time
-from variables import *
+
 
 
 # Create Vultr VPS using default values
@@ -22,12 +21,11 @@ def vultr(apikey):
         'hostname': hostname
 
     }
-
     r = requests.post(url, headers=headers, data=payload).json()
     instanceID = r["SUBID"]
-
+    
     print("VPS Should be created successfully, waiting 60 seconds to provision")
-    time.sleep(60)
+    time.sleep(30)
     # return (instanceID)
 
 
@@ -44,10 +42,10 @@ def vultr(apikey):
     }
 
     response = requests.get(url, headers=headers, params=querystring).json()
+    
 
-
-    ipv4vultr = response[instanceID][0]['ip']
-    print(ipv4vultr)
+    ipv4 = response[instanceID][0]['ip']
+   
     # return (ipv4)
 
 
@@ -63,7 +61,10 @@ def vultr(apikey):
     }
 
     response = requests.get(url, headers=headers, params=querystring).json()
+    
+    ipv6 = response[instanceID][0]['ip']
 
-    ipv6vultr = response[instanceID][0]['ip']
-    print(ipv6vultr)
-    return (instanceID, ipv4vultr, ipv6vultr)
+    return (instanceID, ipv4, ipv6)
+    
+
+

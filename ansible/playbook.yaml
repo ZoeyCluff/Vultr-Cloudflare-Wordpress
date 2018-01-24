@@ -19,6 +19,27 @@
 
 
 
+        - name: "cfemail"
+          prompt: "What is your CloudFlare email?"
+          private: no
+
+
+        - name: "mysqluser"
+          prompt: "What is your mysql user (that can create users and databases)?"
+          default: root
+          private: no
+
+        - name: "mysqlpassword"
+          prompt: "What is the password for your mysql user?"
+          private: no
+
+        - name: "mysqlHost"
+          prompt: "What is the mysql Server IP / hostname?"
+          default: 127.0.0.1
+          private: no
+
+
+
       tasks:
 
 
@@ -28,7 +49,7 @@
 
         - name: add vars file to automate
           include_vars:
-              file: 'variables.yaml'
+              file: variables.yaml
 
 
         - name: allow the installation of PHP 7.1 on ubuntu 17.04
@@ -172,20 +193,18 @@
           mysql_db:
             name: "{{ domainShort }}"
             login_user: "root"
+            login_password: "{{ mysqlpassword }}"
             state: present
 
         - name: Create a new user
           mysql_user:
             name: "{{ domainShort }}"
             login_user: "root"
+            login_password: "{{ mysqlpassword }}"
             password: "{{ db_password }}"
             priv: '*.*:ALL'
             state: present
 
-        - name: stop nginx
-          service:
-              name: nginx
-              state: stopped
 
 
         - name: create www folder
@@ -339,4 +358,4 @@
         - name: restart NGINX for new config to take effect
           service:
             name: nginx
-            state: started
+            state: restarted

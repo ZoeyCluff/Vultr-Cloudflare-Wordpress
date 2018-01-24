@@ -16,6 +16,7 @@ term = Terminal()
 
 
 # Create Vultr VPS using default values
+print term.red("LetsEncrypt is set to the test API. while certs will be issued, they will not be valid and will display an error. remove --staging from the playbook.yaml file to generate valid certificates.")
 instanceID, ipv4vultr, ipv6vultr = vultr(apikey)
 
 # Doing some Cloudflare checks before continuining.
@@ -24,22 +25,22 @@ domain = raw_input("What is the domain name? (without www): ")
 domainLong = 'www.' + domain
 
 zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+exists = doRecordsExist(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 # exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 # TODO - If exists is None, ipv4Record and others will be too.
 # Catch the issue here, and sys.exit()
 # Proper checks will be implemented later
 if exists is 'True':
-    from cloudflareCheck import *
-    # ipv4DNSRecordExists = ipv4(zone, domain, domainLong CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    # ipv4wwwDNSRecordExists = ipv4www(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    # ipv6DNSRecordExists = IPV6Record(zone,  domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    # ipv6wwwDNSRecordExists = IPV6wwwRecord(zone, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-
-    ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv4wwwDNSRecordExists, ipv4wwwRecord  = IPV4wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv6DNSRecordExists, ipv6Record = IPV6Record(zone,  domain,  CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
-    ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    # from cloudflareCheck import *
+    if ipv4Exists:
+        ipv4DNSRecordExists, ipv4Record = IPV4Record(zone, domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+        print(ipv4Exists)
+    elif ipv4wwwExists:
+        ipv4wwwDNSRecordExists, ipv4wwwRecord  = IPV4wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    elif ipv6Exists:
+        ipv6DNSRecordExists, ipv6Record = IPV6Record(zone,  domain,  CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+    elif ipv6wwwExists:
+        ipv6wwwDNSRecordExists, ipv6wwwRecord = IPV6wwwRecord(zone, domain, domainLong, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
     print("Checking for existing A and AAAA records that may interfere")
     if ipv4Record:
