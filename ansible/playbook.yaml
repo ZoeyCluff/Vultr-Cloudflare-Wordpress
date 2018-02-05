@@ -18,7 +18,7 @@
         db_password: "{{ lookup('password', './passwordfile chars=ascii_letters,digits,hexdigits,punctuation') }}"
 
 
-
+      vars_prompt:
         - name: "cfemail"
           prompt: "What is your CloudFlare email?"
           private: no

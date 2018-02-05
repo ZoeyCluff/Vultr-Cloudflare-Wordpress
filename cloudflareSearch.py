@@ -30,8 +30,8 @@ def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
         default = 0
         if count  > default:
             # This should be True rather than a string
-            exists = 'true'
+            exists = True
             return exists
         else:
-            exists = 'false'
+            exists = False
             return exists
