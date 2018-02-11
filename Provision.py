@@ -27,15 +27,16 @@ ipv4Vultr = str(ipv4Vultr)
 ipv6Vultr = str(ipv6Vultr)
 # Doing some Cloudflare checks before continuining.
 
-domain = str(raw_input("What is the domain name? (without www): "))
-domainLong = str('www.' + domain)
-response = str(cf.get_zone_id(domain))
+domain = raw_input("What is the domain name? (without www): ")
+domainLong = 'www.' + domain
+response = cf.get_zone_id(domain)
 print(response)
 
 zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 if exists == 'true':
+
     ipv4 = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
     ipv4www = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
     ipv6 = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)

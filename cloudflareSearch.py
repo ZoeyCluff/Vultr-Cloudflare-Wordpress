@@ -15,6 +15,7 @@ def zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
         if res['name'] == domain:
             zone = res['id']
             return zone
+            return exists
 
 
 def doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
