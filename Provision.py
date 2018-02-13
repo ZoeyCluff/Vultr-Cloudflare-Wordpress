@@ -7,7 +7,7 @@ from variables import *
 cf = CloudFlare(CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 from vultr import *
 from cloudflareSearch import zone, doRecordsExist
-from cloudflareZones import *
+from cloudflareZones import RecordsExist
 from cloudflareDelete import ipv4RecordDelete, ipv4wwwRecordDelete, ipv6RecordDelete, ipv6wwwRecordDelete
 # from cloudflareDelete import
 import sys
