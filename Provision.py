@@ -6,8 +6,8 @@ import os
 from variables import *
 cf = CloudFlare(CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 from vultr import *
-from cloudflareSearch import zone, doRecordsExist
-from cloudflareZones import RecordsExist
+from cloudflareSearch import findZone, doRecordsExist
+from cloudflareZones import ipv4Exists, ipv4wwwExists, ipv6Exists, ipv6wwwExists
 from cloudflareDelete import ipv4RecordDelete, ipv4wwwRecordDelete, ipv6RecordDelete, ipv6wwwRecordDelete
 # from cloudflareDelete import
 import sys
@@ -32,17 +32,22 @@ domainLong = 'www.' + domain
 response = cf.get_zone_id(domain)
 print(response)
 
-zone = zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
+zone = findZone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 exists = doRecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY)
 
 if exists == 'true':
 
-    ipv4 = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
-    ipv4www = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
-    ipv6 = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
-    ipv6www = RecordsExist(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
+    ipv4Zone = ipv4Exists(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
+    ipv4wwwZone = ipv4wwwExists(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
+    ipv6Zone = ipv6Exists(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
+    ipv6wwwZone = ipv6wwwExists(zone, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY, domain, domainLong)
 
+    print(ipv4Zone)
+    print(ipv4wwwZone)
+    print(ipv6Zone)
+    print(ipv6wwwZone)
     print("Checking for existing A and AAAA records that may interfere")
+
     if ipv4 != '':
         print("Conflicting IPv4 @ record detected. Wordpress will not work unless record is updated. Update? (y/n)")
         answeripv4 = str(raw_input('Update ipv4 @ records? y/n (lowercase y or n): '))

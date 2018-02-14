@@ -2,7 +2,7 @@ import requests
 import json
 
 
-def zone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
+def findZone(domain, CLOUDFLARE_EMAIL, CLOUDFLARE_AUTH_KEY):
     url = "https://api.cloudflare.com/client/v4/zones"
     querystring = {"name": domain}
     headers = {
